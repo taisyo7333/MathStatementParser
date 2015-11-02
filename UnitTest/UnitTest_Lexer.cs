@@ -12,26 +12,60 @@ namespace UnitTest
     [TestClass]
     public class UnitTest_Lexer
     {
+        private Token[] MakeLexicalArray(string input)
+        {
+            Lexer lexer = new ListLexer(input);
+            List<Token> list = new List<Token>();
+
+            Token token = lexer.NextToken();
+            while (token.Type != Lexer.TYPE_EOF)
+            {
+                list.Add(token);
+                Trace.WriteLine(token.ToString());
+                token = lexer.NextToken();
+            }
+            //EOF
+            list.Add(token);
+
+            return list.ToArray();
+        }
+
+        [TestMethod]
+        public void TestReal()
+        {
+            string input = "1.2/123.0+654.321";
+            var ar = MakeLexicalArray(input);
+
+            Assert.AreEqual(6, ar.Length);
+
+            int index = 0;
+            Assert.AreEqual(ListLexer.TYPE_REAL, ar[index].Type);
+            Assert.AreEqual("1.2", ar[index].Text);
+
+            index++;
+            Assert.AreEqual(ListLexer.TYPE_OPE, ar[index].Type);
+            Assert.AreEqual("/", ar[index].Text);
+
+            index++;
+            Assert.AreEqual(ListLexer.TYPE_REAL, ar[index].Type);
+            Assert.AreEqual("123.0", ar[index].Text);
+
+            index++;
+            Assert.AreEqual(ListLexer.TYPE_OPE, ar[index].Type);
+            Assert.AreEqual("+", ar[index].Text);
+
+            index++;
+            Assert.AreEqual(ListLexer.TYPE_REAL, ar[index].Type);
+            Assert.AreEqual("654.321", ar[index].Text);
+
+            index++;
+            Assert.AreEqual(ListLexer.TYPE_EOF, ar[index].Type);
+        }
         [TestMethod]
         public void TestBasic()
         {
             string input = "123 +456*(19- 20)    /7890123456";
-            Lexer lexer = new ListLexer(input);
-
-            var tokenList = new List<Token>();
-
-            Token token = lexer.NextToken();
-
-            while (token.Type != Lexer.TYPE_EOF)
-            {
-                tokenList.Add(token);
-                Console.WriteLine(token.ToString());
-                token = lexer.NextToken();
-            }
-            // EOF
-            tokenList.Add(token);
-
-            var ar = tokenList.ToArray();
+            var ar = MakeLexicalArray(input);
 
             Assert.AreEqual(12, ar.Length);
             int index = 0;

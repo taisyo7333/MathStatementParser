@@ -32,6 +32,10 @@ namespace MathStatementParser.Lexer
         /// The typ e_ rparen
         /// </summary>
         public static readonly int TYPE_RPAREN = 5;
+        /// <summary>
+        /// The typ e_ real
+        /// </summary>
+        public static readonly int TYPE_REAL = 6;
         #endregion
 
         #region FIELDS
@@ -46,6 +50,7 @@ namespace MathStatementParser.Lexer
             "OPE",
             "LPAREN",
             "RPAREN",
+            "REAL",
         };
         #endregion
 
@@ -94,7 +99,7 @@ namespace MathStatementParser.Lexer
                         if (IsNumber())
                             return Number();
                         else
-                            throw new LexerException("invalid character: " + next_input.ToString());
+                            throw new LexerException("invalid character: " + next_input + " , expected Number.");
                 }
             }
             return new Token(TYPE_EOF, "<EOF>");
@@ -134,9 +139,10 @@ namespace MathStatementParser.Lexer
                 return false;
         }
         /// <summary>
-        /// 数字から構成される文字列を軸としたTokenインスタンスを生成する
+        /// 数字：(\d+)から構成される文字列を字句としたTokenインスタンスを生成する。
+        /// 実数：(\d+\.\d+)から構成される文字列を字句としたTokenインスタンを生成する。
         /// </summary>
-        /// <returns>字句型：数字のTokenを生成する</returns>
+        /// <returns>字句型：数字または実数のTokenを生成する</returns>
         private Token Number()
         {
             StringBuilder buffer = new StringBuilder();
@@ -146,7 +152,26 @@ namespace MathStatementParser.Lexer
                 Consume();
             } while (IsNumber());
 
-            return new Token(TYPE_NUM, buffer.ToString());
+            if( LOOK_AHEAD != '.')
+            {
+                return new Token(TYPE_NUM, buffer.ToString());
+            }
+            else
+            {
+                // 実数型
+                buffer.Append(LOOK_AHEAD);
+                Consume();
+                if(!IsNumber())
+                    throw new LexerException("invalid character: " + LOOK_AHEAD + " expected number.");
+
+                do
+                {
+                    buffer.Append(LOOK_AHEAD);
+                    Consume();
+                } while (IsNumber());
+
+                return new Token(TYPE_REAL, buffer.ToString());
+            }
         }
 
         #endregion
