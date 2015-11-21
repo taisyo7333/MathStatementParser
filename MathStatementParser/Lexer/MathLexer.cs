@@ -4,9 +4,9 @@ using System.Text;
 namespace MathStatementParser.Lexer
 {
     /// <summary>
-    /// 
+    /// 数式文字列の字句解析。
     /// </summary>
-    public partial class ListLexer : Lexer
+    public partial class MathLexer : Lexer
     {
         #region STATIC_FIELDS
         /// <summary>
@@ -54,12 +54,13 @@ namespace MathStatementParser.Lexer
         };
         #endregion
 
+
         #region METHODS
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ListLexer"/> class.
+        /// Initializes a new instance of the <see cref="MathLexer"/> class.
         /// </summary>
-        public ListLexer(string input)
+        public MathLexer(string input)
             :base(input)
         {
         }
@@ -146,12 +147,14 @@ namespace MathStatementParser.Lexer
         private Token Number()
         {
             StringBuilder buffer = new StringBuilder();
+            // 整数型・実数型を問わず数値を抽出する
             do
             {
                 buffer.Append(LOOK_AHEAD);
                 Consume();
             } while (IsNumber());
 
+            
             if( LOOK_AHEAD != '.')
             {
                 return new Token(TYPE_NUM, buffer.ToString());
@@ -173,6 +176,7 @@ namespace MathStatementParser.Lexer
                 return new Token(TYPE_REAL, buffer.ToString());
             }
         }
+
 
         #endregion
 

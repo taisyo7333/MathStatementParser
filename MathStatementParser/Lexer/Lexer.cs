@@ -6,6 +6,7 @@ namespace MathStatementParser.Lexer
     /// <summary>
     /// Token Analyzer for Mathmatical statement.
     /// Abstract class.
+    /// 文字列を入力し、字句解析した結果(字句)を順次出力します。
     /// </summary>
     public abstract class Lexer
     {
@@ -63,12 +64,21 @@ namespace MathStatementParser.Lexer
         {
             this.input = input;
             // 先読み処理の準備
-            c = this.input.ElementAt(p);
+            if(this.input.Any())
+            {
+                c = this.input.ElementAt(p);
+            }
+            else
+            {
+                // 空の場合
+                c = EOF;
+            }
         }
 
 
         /// <summary>
         /// Cosumes this instance.
+        /// 入力文字列を一文字読み進める。(次の文字を参照する)
         /// </summary>
         public void Consume()
         {
@@ -101,6 +111,12 @@ namespace MathStatementParser.Lexer
             }
         }
 
+        /// <summary>
+        /// Nexts the token.
+        /// コンストラクタで入力した文字列を、本メソッドで順次字句解析した結果を出力する。
+        /// 最終字句はTYPE_EOFとなる。
+        /// </summary>
+        /// <returns>字句解析した結果(字句)</returns>
         public abstract Token NextToken();
         public abstract string GetTokenName(int tokenType);
         #endregion

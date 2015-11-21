@@ -8,7 +8,7 @@ namespace MathStatementParser.Lexer
     {
         #region FIELDS
         /// <summary>
-        /// 字句型
+        /// 字句型：Lexerクラスのサブクラスで定義されている字句型が設定される。
         /// </summary>
         private int type;
         /// <summary>
@@ -60,7 +60,7 @@ namespace MathStatementParser.Lexer
         /// </returns>
         public override string ToString()
         {
-            var name = ListLexer.tokenNames[type];
+            var name = MathLexer.tokenNames[type];
             return "<'" + text + "'," + name + ">";
         }
         #endregion

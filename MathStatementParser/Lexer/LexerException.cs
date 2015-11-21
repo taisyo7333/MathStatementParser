@@ -10,7 +10,7 @@ namespace MathStatementParser.Lexer
     /// <summary>
     /// Lexer 実行時の例外
     /// </summary>
-    class LexerException : Exception
+    public class LexerException : Exception
     {
 
         /// <summary>

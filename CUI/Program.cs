@@ -21,7 +21,7 @@ namespace CUI
             Console.WriteLine(">" + input);
 
 
-            Lexer lexer = new ListLexer(input);
+            Lexer lexer = new MathLexer(input);
             Token token = lexer.NextToken();
 
             while (token.Type != Lexer.TYPE_EOF)
