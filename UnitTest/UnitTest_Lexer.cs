@@ -9,6 +9,9 @@ using MathStatementParser.Lexer;
 
 namespace UnitTest
 {
+    /// <summary>
+    /// UnitTest_Lexer の概要の説明
+    /// </summary>
     [TestClass]
     public class UnitTest_Lexer
     {
@@ -102,7 +105,7 @@ namespace UnitTest
 
             int index = 0;
             Assert.AreEqual("+", ar[index].Text);
-            Assert.AreEqual(MathLexer.TYPE_OPE, ar[index].Type);
+            Assert.AreEqual(MathLexer.TYPE_OPE_ADD, ar[index].Type);
             index++;
             Assert.AreEqual(MathLexer.tokenNames[MathLexer.TYPE_EOF], ar[index].Text);
             Assert.AreEqual(MathLexer.TYPE_EOF, ar[index].Type);
@@ -121,7 +124,7 @@ namespace UnitTest
 
             int index = 0;
             Assert.AreEqual("-", ar[index].Text);
-            Assert.AreEqual(MathLexer.TYPE_OPE, ar[index].Type);
+            Assert.AreEqual(MathLexer.TYPE_OPE_SUB, ar[index].Type);
             index++;
             Assert.AreEqual(MathLexer.tokenNames[MathLexer.TYPE_EOF], ar[index].Text);
             Assert.AreEqual(MathLexer.TYPE_EOF, ar[index].Type);
@@ -140,7 +143,7 @@ namespace UnitTest
 
             int index = 0;
             Assert.AreEqual("*", ar[index].Text);
-            Assert.AreEqual(MathLexer.TYPE_OPE, ar[index].Type);
+            Assert.AreEqual(MathLexer.TYPE_OPE_MUL, ar[index].Type);
             index++;
             Assert.AreEqual(MathLexer.tokenNames[MathLexer.TYPE_EOF], ar[index].Text);
             Assert.AreEqual(MathLexer.TYPE_EOF, ar[index].Type);
@@ -159,7 +162,7 @@ namespace UnitTest
 
             int index = 0;
             Assert.AreEqual("/", ar[index].Text);
-            Assert.AreEqual(MathLexer.TYPE_OPE, ar[index].Type);
+            Assert.AreEqual(MathLexer.TYPE_OPE_DIV, ar[index].Type);
             index++;
             Assert.AreEqual(MathLexer.tokenNames[MathLexer.TYPE_EOF], ar[index].Text);
             Assert.AreEqual(MathLexer.TYPE_EOF, ar[index].Type);
@@ -244,7 +247,7 @@ namespace UnitTest
             Assert.AreEqual("1.2", ar[index].Text);
 
             index++;
-            Assert.AreEqual(MathLexer.TYPE_OPE, ar[index].Type);
+            Assert.AreEqual(MathLexer.TYPE_OPE_DIV, ar[index].Type);
             Assert.AreEqual("/", ar[index].Text);
 
             index++;
@@ -252,7 +255,7 @@ namespace UnitTest
             Assert.AreEqual("123.0", ar[index].Text);
 
             index++;
-            Assert.AreEqual(MathLexer.TYPE_OPE, ar[index].Type);
+            Assert.AreEqual(MathLexer.TYPE_OPE_ADD, ar[index].Type);
             Assert.AreEqual("+", ar[index].Text);
 
             index++;
@@ -280,7 +283,7 @@ namespace UnitTest
 
             index++;
             Assert.AreEqual("+", ar[index].Text);
-            Assert.AreEqual(MathLexer.TYPE_OPE, ar[index].Type);
+            Assert.AreEqual(MathLexer.TYPE_OPE_ADD, ar[index].Type);
 
             index++;
             Assert.AreEqual("456", ar[index].Text);
@@ -288,7 +291,7 @@ namespace UnitTest
 
             index++;
             Assert.AreEqual("*", ar[index].Text);
-            Assert.AreEqual(MathLexer.TYPE_OPE, ar[index].Type);
+            Assert.AreEqual(MathLexer.TYPE_OPE_MUL, ar[index].Type);
 
             index++;
             Assert.AreEqual("(", ar[index].Text);
@@ -300,7 +303,7 @@ namespace UnitTest
 
             index++;
             Assert.AreEqual("-", ar[index].Text);
-            Assert.AreEqual(MathLexer.TYPE_OPE, ar[index].Type);
+            Assert.AreEqual(MathLexer.TYPE_OPE_SUB, ar[index].Type);
 
             index++;
             Assert.AreEqual("20", ar[index].Text);
@@ -312,7 +315,7 @@ namespace UnitTest
 
             index++;
             Assert.AreEqual("/", ar[index].Text);
-            Assert.AreEqual(MathLexer.TYPE_OPE, ar[index].Type);
+            Assert.AreEqual(MathLexer.TYPE_OPE_DIV, ar[index].Type);
 
             index++;
             Assert.AreEqual("7890123456", ar[index].Text);

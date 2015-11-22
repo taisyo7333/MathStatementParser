@@ -21,21 +21,33 @@ namespace MathStatementParser.Lexer
         /// </summary>
         public static readonly int TYPE_NUM = 2;
         /// <summary>
-        /// 字句型：演算子
+        /// 字句型：Left Parenthesis
         /// </summary>
-        public static readonly int TYPE_OPE = 3;
+        public static readonly int TYPE_LPAREN = 3;
         /// <summary>
-        /// The typ e_ lparen
+        /// 字句型：Right Parenthesis
         /// </summary>
-        public static readonly int TYPE_LPAREN = 4;
+        public static readonly int TYPE_RPAREN = 4;
         /// <summary>
-        /// The typ e_ rparen
+        /// 字句型：実数
         /// </summary>
-        public static readonly int TYPE_RPAREN = 5;
+        public static readonly int TYPE_REAL = 5;
         /// <summary>
-        /// The typ e_ real
+        /// 字句型：加算演算子
         /// </summary>
-        public static readonly int TYPE_REAL = 6;
+        public static readonly int TYPE_OPE_ADD = 6;
+        /// <summary>
+        /// 字句型：減算演算子
+        /// </summary>
+        public static readonly int TYPE_OPE_SUB = 7;
+        /// <summary>
+        /// 字句型：乗算演算子
+        /// </summary>
+        public static readonly int TYPE_OPE_MUL = 8;
+        /// <summary>
+        /// 字句型：除算演算子
+        /// </summary>
+        public static readonly int TYPE_OPE_DIV = 9;
         #endregion
 
         #region FIELDS
@@ -47,10 +59,13 @@ namespace MathStatementParser.Lexer
             "N/A",
             "<EOF>",
             "NUM",
-            "OPE",
             "LPAREN",
             "RPAREN",
             "REAL",
+            "OP-ADD",
+            "OP-SUB",
+            "OP-MUL",
+            "OP-DIV",
         };
         #endregion
 
@@ -91,11 +106,17 @@ namespace MathStatementParser.Lexer
                         Consume();
                         return new Token(TYPE_RPAREN, next_input.ToString());
                     case '*':
+                        Consume();
+                        return new Token(TYPE_OPE_MUL, next_input.ToString());
                     case '/':
+                        Consume();
+                        return new Token(TYPE_OPE_DIV, next_input.ToString());
                     case '+':
+                        Consume();
+                        return new Token(TYPE_OPE_ADD,next_input.ToString());
                     case '-':
                         Consume();
-                        return new Token(TYPE_OPE, next_input.ToString());
+                        return new Token(TYPE_OPE_SUB, next_input.ToString());
                     default:
                         if (IsNumber())
                             return Number();
@@ -176,8 +197,6 @@ namespace MathStatementParser.Lexer
                 return new Token(TYPE_REAL, buffer.ToString());
             }
         }
-
-
         #endregion
 
 
