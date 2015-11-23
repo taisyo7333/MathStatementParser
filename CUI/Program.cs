@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using MathStatementParser.Lexer;
 using MathStatementParser.Parser;
+using MathStatementParser.Tree;
 
 namespace CUI
 {
@@ -42,7 +43,35 @@ namespace CUI
                 var result = parser.Start();
                 Console.WriteLine(string.Format("result = {0} ",result == null ? "" : result ));
             }
+            Console.WriteLine("+++++++ Abstruct Syntax Tree #1 ++++++++");
+            {
+                AbstractSyntaxTree root = new AbstractSyntaxTree(null);
 
+                AbstractSyntaxTree tree = new AbstractSyntaxTree(MathLexer.TYPE_OPE_ADD, "+");
+                tree.AddChild(new AbstractSyntaxTree(MathLexer.TYPE_NUM, "123"));
+                tree.AddChild(new AbstractSyntaxTree(MathLexer.TYPE_REAL, "456.7"));
+
+                Console.WriteLine(tree.ToStringTree());
+            }
+            {
+                Console.WriteLine("+++++++ Abstruct Syntax Tree #2 ++++++++");
+
+                AbstractSyntaxTree root = new AbstractSyntaxTree(null);
+
+                AbstractSyntaxTree tree = new AbstractSyntaxTree(MathLexer.TYPE_OPE_ADD, "+");
+                tree.AddChild(new AbstractSyntaxTree(MathLexer.TYPE_NUM, "123"));
+//                tree.AddChild(new AbstractSyntaxTree(MathLexer.TYPE_REAL, "456.7"));
+
+                root.AddChild(tree);
+
+                AbstractSyntaxTree tree_child = new AbstractSyntaxTree(MathLexer.TYPE_OPE_DIV, "/");
+                tree_child.AddChild(new AbstractSyntaxTree(MathLexer.TYPE_NUM, "678.9"));
+                tree_child.AddChild(new AbstractSyntaxTree(MathLexer.TYPE_REAL, "1"));
+
+                tree.AddChild(tree_child);
+
+                Console.WriteLine(tree.ToStringTree());
+            }
 
 
         }
