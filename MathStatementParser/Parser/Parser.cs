@@ -51,11 +51,13 @@ namespace MathStatementParser.Parser
         /// </summary>
         /// <param name="token_type">The token_type.</param>
         /// <exception cref="MathStatementParser.Parser.ParserException"></exception>
-        public void Match(int token_type)
+        public Tree.AbstractSyntaxTree Match(int token_type)
         {
             if (token_type.Equals(lookahead.Type))
             {
+                var node = lookahead;
                 Consume();
+                return new Tree.AbstractSyntaxTree(node);
             }
             else
             {
@@ -72,10 +74,16 @@ namespace MathStatementParser.Parser
             lookahead = lexer.NextToken();
         }
         /// <summary>
-        /// Starts syntax parsing.
+        /// Tests parsing if it's ok or ng.
         /// </summary>
-        /// <returns>null : success , not null : error </returns>
+        /// <returns>null : success , not null : error</returns>
         public abstract string Start();
+        /// <summary>
+        /// Parses input to a Abstruct Syntax Tree.
+        /// 入力字句を抽象構文木へ変換する
+        /// </summary>
+        /// <returns>生成された抽象構文木</returns>
+        public abstract Tree.AbstractSyntaxTree ParseAst();
 
         #endregion
     }

@@ -166,5 +166,141 @@ namespace UnitTest
             var result = parser.Start();
             Assert.AreNotEqual(null, result);
         }
+        /// <summary>
+        /// Tests the parser abstruct syntax tree_ empty.
+        /// 空文字列入力テスト
+        /// </summary>
+        [TestMethod]
+        public void TestParserAST_NG_Empty()
+        {
+            Lexer lexer = new MathLexer("");
+            Parser parser = new MathParser(lexer);
+
+            var result = parser.ParseAst();
+            Assert.AreEqual(null, result);
+        }
+        /// <summary>
+        /// Tests the parser Abstruct Syntax Tree occurs syntax error.
+        /// </summary>
+        [TestMethod]
+        public void TestParserAST_NG_SyntaxError()
+        {
+            Lexer lexer = new MathLexer("");
+            Parser parser = new MathParser(lexer);
+
+            var result = parser.ParseAst();
+            Assert.AreEqual(null, result);
+
+        }
+        /// <summary>
+        /// Tests the parser Abstruct Syntax Tree success in case of addition.
+        /// 加算演算子のみを使用した数式をテストする
+        /// </summary>
+        [TestMethod]
+        public void TestParserAST_OK_Add()
+        {
+            Lexer lexer = new MathLexer("1+23+456+7890");
+            Parser parser = new MathParser(lexer);
+
+            var result = parser.ParseAst();
+            Assert.AreNotEqual(null, result);
+            var ast = result.ToStringTree();
+            Assert.AreEqual("(+ 1 (+ 23 (+ 456 7890)))",ast);
+        }
+        /// <summary>
+        /// Tests the parser Abstruct Syntax Tree success in case of subtraction.   
+        /// 減算演算子のみを使用した数式をテストする
+        /// </summary>
+        [TestMethod]
+        public void TestParserAST_OK_Sub()
+        {
+            Lexer lexer = new MathLexer("1-23-456-7890");
+            Parser parser = new MathParser(lexer);
+
+            var result = parser.ParseAst();
+            Assert.AreNotEqual(null, result);
+            var ast = result.ToStringTree();
+            Assert.AreEqual("(- 1 (- 23 (- 456 7890)))",ast);
+        }
+        /// <summary>
+        /// Tests the parser Abstruct Syntax Tree success in case of multiplication.
+        /// 乗算演算子のみを使用した数式をテストする
+        /// </summary>
+        [TestMethod]
+        public void TestParserAST_OK_Mul()
+        {
+            Lexer lexer = new MathLexer("1*23*456*7890");
+            Parser parser = new MathParser(lexer);
+
+            var result = parser.ParseAst();
+            Assert.AreNotEqual(null, result);
+            var ast = result.ToStringTree();
+            Assert.AreEqual("(* 1 (* 23 (* 456 7890)))", ast);
+        }
+        /// <summary>
+        /// Tests the parser Abstruct Syntax Tree success in case of division.
+        /// 除算演算子のみを使用した数式をテストする
+        /// </summary>
+        [TestMethod]
+        public void TestParserAST_OK_Div()
+        {
+            Lexer lexer = new MathLexer("1/23/456/7890");
+            Parser parser = new MathParser(lexer);
+
+            var result = parser.ParseAst();
+            Assert.AreNotEqual(null, result);
+            var ast = result.ToStringTree();
+            Assert.AreEqual("(/ 1 (/ 23 (/ 456 7890)))", ast);
+        }
+        /// <summary>
+        /// Tests the parser Abstruct Syntax Tree success in case of complex situation.
+        /// 複数の優先度が異なる演算子を使用した数式をテストする。
+        /// その１。
+        /// </summary>
+        [TestMethod]
+        public void TestParserAST_OK_Priority1()
+        {
+            Lexer lexer = new MathLexer("1+23*456");
+            Parser parser = new MathParser(lexer);
+
+            var result = parser.ParseAst();
+            Assert.AreNotEqual(null, result);
+            var ast = result.ToStringTree();
+            Assert.AreEqual("(+ 1 (* 23 456))", ast);
+        }
+        /// <summary>
+        /// Tests the parser Abstruct Syntax Tree success in case of complex situation.
+        /// 複数の優先度が異なる演算子を使用した数式をテストする。
+        /// その２。
+        /// </summary>
+        [TestMethod]
+        public void TestParserAST_OK_Priority2()
+        {
+            Lexer lexer = new MathLexer("1*23+456");
+            Parser parser = new MathParser(lexer);
+
+            var result = parser.ParseAst();
+            Assert.AreNotEqual(null, result);
+            var ast = result.ToStringTree();
+            Assert.AreEqual("(+ (* 1 23) 456)", ast);
+        }
+        /// <summary>
+        /// Tests the parser Abstruct Syntax Tree success in case of using parenthesis.
+        /// 複数の優先度が異なる演算子と()を使用した数式をテストする。
+        /// その３。
+        /// </summary>
+        [TestMethod]
+        public void TestParserAST_OK_Priority_Paren()
+        {
+            Lexer lexer = new MathLexer("1*(23+456)");
+            Parser parser = new MathParser(lexer);
+
+            var result = parser.ParseAst();
+            Assert.AreNotEqual(null, result);
+            var ast = result.ToStringTree();
+            Assert.AreEqual("(* 1 (+ 23 456))", ast);
+        }
+
+
     }
 }

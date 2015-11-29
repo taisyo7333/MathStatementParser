@@ -18,7 +18,7 @@ namespace CUI
             if( args.Length > 0)
                 input = args[0];
             else
-                input = "123 +456*(19- 20)    /7890123456";
+                input = "123 +456+789*(19- 20)    /7890123456";
 
             {
                 Console.WriteLine(">" + input);
@@ -72,7 +72,15 @@ namespace CUI
 
                 Console.WriteLine(tree.ToStringTree());
             }
+            {
+                Console.WriteLine("++++++++ Translate from string to Abstruct Syntax Tree ++++++++");
+                Lexer lexer = new MathLexer(input);
+                Parser parser = new MathParser(lexer);
 
+                var ast = parser.ParseAst();
+                Console.WriteLine(ast.ToStringTree());
+
+            }
 
         }
     }
