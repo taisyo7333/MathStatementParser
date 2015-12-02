@@ -81,6 +81,18 @@ namespace CUI
                 Console.WriteLine(ast.ToStringTree());
 
             }
+            {
+                Console.WriteLine("++++++++ Translate from string to Abstruct Syntax Tree #2 ++++++++");
+                var statement = "1+2+3";
+
+                Lexer lexer = new MathLexer(statement);
+                Parser parser = new MathParser(lexer);
+
+                var ast = parser.ParseAst();
+                Console.WriteLine(statement);
+                Console.WriteLine(ast.ToStringTree());
+
+            }
 
         }
     }

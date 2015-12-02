@@ -17,8 +17,8 @@ namespace MathStatementParser.Parser
     {
         #region SYNTAX
         /* ******************************************
-         * <expr>    ::= <term> ('+'|'-') <term>
-         * <term>    ::= <factor> ('*'|'/') <factor>
+         * <expr>    ::= <term>   (('+'|'-') <term>   )*
+         * <term>    ::= <factor> (('*'|'/') <factor> )*
          * <factor>  ::= '(' <expr> ')' | <element>
          * <elements>::= Integer | real-number
          * ***************************************** */
@@ -98,48 +98,57 @@ namespace MathStatementParser.Parser
         #region SYNTAX_PARSE_IMPLEMENTS
         /// <summary>
         /// 文法 : expr を表現
-        /// <![CDATA[ <expr>    ::= <term> ('+'|'-') <term> ]]>
+        /// <![CDATA[ <expr>    ::= <term> (('+'|'-') <term>)* ]]>
         /// </summary>
-        /// <remarks></remarks>
+        /// <remarks>抽象構文木(Abstruct Syntax Tree)の部分木 or 全体</remarks>
         Tree.AbstractSyntaxTree Expr()
         {
-            var tree = Term();
+            var left = Term();
 
-            if (LOOK_AHEAD.Type == Lexer.MathLexer.TYPE_OPE_ADD
-             || LOOK_AHEAD.Type == Lexer.MathLexer.TYPE_OPE_SUB)
+            while (LOOK_AHEAD.Type == Lexer.MathLexer.TYPE_OPE_ADD
+                || LOOK_AHEAD.Type == Lexer.MathLexer.TYPE_OPE_SUB)
             {
                 var op = Match(LOOK_AHEAD.Type);
-                var node = Expr();
-                op.AddChild(tree);
-                op.AddChild(node);
-                return op;
+                var right = Term();
+
+                op.AddChild(left);
+                op.AddChild(right);
+
+                // 優先度が同じ場合に左側を優先。
+                // 左側演算子の階層を深く構築する。
+                left = op;
             }
-            return tree;
+            return left;
         }
         /// <summary>
         /// 文法：termを表現
-        /// <![CDATA[<term>    ::= <factor> ('*'|'/') <factor>]]>
+        /// <![CDATA[<term>    ::= <factor> (('*'|'/') <factor>)* ]]>
         /// </summary>
+        /// <remarks>抽象構文木(Abstruct Syntax Tree)の部分木</remarks>
         Tree.AbstractSyntaxTree Term()
         {
-            var tree = Factor();
+            var left = Factor();
 
-            if (LOOK_AHEAD.Type == Lexer.MathLexer.TYPE_OPE_MUL
+            while (LOOK_AHEAD.Type == Lexer.MathLexer.TYPE_OPE_MUL
              || LOOK_AHEAD.Type == Lexer.MathLexer.TYPE_OPE_DIV)
             {
                 var op = Match(LOOK_AHEAD.Type);
-                var node = Term();
+                var right = Factor();
 
-                op.AddChild(tree);
-                op.AddChild(node);
-                return op;
+                op.AddChild(left);
+                op.AddChild(right);
+
+                // 優先度が同じ場合に左側を優先。
+                // 左側演算子の階層を深く構築する。
+                left = op;
             }
-            return tree;
+            return left;
         }
         /// <summary>
         ///文法：factorを表現
         ///<![CDATA[<factor>  ::= '(' <expr> ')' | <element>]]>
         /// </summary>
+        /// <remarks>抽象構文木(Abstruct Syntax Tree)の部分木</remarks>
         Tree.AbstractSyntaxTree Factor()
         {
             if( LOOK_AHEAD.Type == Lexer.MathLexer.TYPE_LPAREN)
@@ -159,6 +168,7 @@ namespace MathStatementParser.Parser
         /// <![CDATA[<elements> ::= Integer | real-number]]>
         /// </summary>
         /// <exception cref="MathStatementParser.Parser.ParserException"></exception>
+        /// <remarks>抽象構文木(Abstruct Syntax Tree)の部分木</remarks>
         Tree.AbstractSyntaxTree Elements()
         {
             if(LOOK_AHEAD.Type == Lexer.MathLexer.TYPE_NUM)

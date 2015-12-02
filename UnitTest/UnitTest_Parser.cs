@@ -196,6 +196,7 @@ namespace UnitTest
         /// Tests the parser Abstruct Syntax Tree success in case of addition.
         /// 加算演算子のみを使用した数式をテストする
         /// </summary>
+        /// <remarks>左優先(左から右へ評価する)</remarks>
         [TestMethod]
         public void TestParserAST_OK_Add()
         {
@@ -205,12 +206,13 @@ namespace UnitTest
             var result = parser.ParseAst();
             Assert.AreNotEqual(null, result);
             var ast = result.ToStringTree();
-            Assert.AreEqual("(+ 1 (+ 23 (+ 456 7890)))",ast);
+            Assert.AreEqual("(+ (+ (+ 1 23) 456) 7890)", ast);
         }
         /// <summary>
         /// Tests the parser Abstruct Syntax Tree success in case of subtraction.   
         /// 減算演算子のみを使用した数式をテストする
         /// </summary>
+        /// <remarks>左優先(左から右へ評価する)</remarks>
         [TestMethod]
         public void TestParserAST_OK_Sub()
         {
@@ -220,12 +222,13 @@ namespace UnitTest
             var result = parser.ParseAst();
             Assert.AreNotEqual(null, result);
             var ast = result.ToStringTree();
-            Assert.AreEqual("(- 1 (- 23 (- 456 7890)))",ast);
+            Assert.AreEqual("(- (- (- 1 23) 456) 7890)",ast);
         }
         /// <summary>
         /// Tests the parser Abstruct Syntax Tree success in case of multiplication.
         /// 乗算演算子のみを使用した数式をテストする
         /// </summary>
+        /// <remarks>左優先(左から右へ評価する)</remarks>
         [TestMethod]
         public void TestParserAST_OK_Mul()
         {
@@ -235,12 +238,13 @@ namespace UnitTest
             var result = parser.ParseAst();
             Assert.AreNotEqual(null, result);
             var ast = result.ToStringTree();
-            Assert.AreEqual("(* 1 (* 23 (* 456 7890)))", ast);
+            Assert.AreEqual("(* (* (* 1 23) 456) 7890)", ast);
         }
         /// <summary>
         /// Tests the parser Abstruct Syntax Tree success in case of division.
         /// 除算演算子のみを使用した数式をテストする
         /// </summary>
+        /// <remarks>左優先(左から右へ評価する)</remarks>
         [TestMethod]
         public void TestParserAST_OK_Div()
         {
@@ -250,7 +254,7 @@ namespace UnitTest
             var result = parser.ParseAst();
             Assert.AreNotEqual(null, result);
             var ast = result.ToStringTree();
-            Assert.AreEqual("(/ 1 (/ 23 (/ 456 7890)))", ast);
+            Assert.AreEqual("(/ (/ (/ 1 23) 456) 7890)", ast);
         }
         /// <summary>
         /// Tests the parser Abstruct Syntax Tree success in case of complex situation.
