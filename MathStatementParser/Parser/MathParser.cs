@@ -105,26 +105,16 @@ namespace MathStatementParser.Parser
         {
             var tree = Term();
 
-            if (LOOK_AHEAD.Type == Lexer.MathLexer.TYPE_OPE_ADD)
+            if (LOOK_AHEAD.Type == Lexer.MathLexer.TYPE_OPE_ADD
+             || LOOK_AHEAD.Type == Lexer.MathLexer.TYPE_OPE_SUB)
             {
-                var op = Match(Lexer.MathLexer.TYPE_OPE_ADD);
+                var op = Match(LOOK_AHEAD.Type);
                 var node = Expr();
                 op.AddChild(tree);
                 op.AddChild(node);
                 return op;
             }
-            else if (LOOK_AHEAD.Type == Lexer.MathLexer.TYPE_OPE_SUB)
-            {
-                var op = Match(Lexer.MathLexer.TYPE_OPE_SUB);
-                var node = Expr();
-                op.AddChild(tree);
-                op.AddChild(node);
-                return op;
-            }
-            else
-            {
-                return tree;
-            }
+            return tree;
         }
         /// <summary>
         /// 文法：termを表現
@@ -134,27 +124,17 @@ namespace MathStatementParser.Parser
         {
             var tree = Factor();
 
-            if (LOOK_AHEAD.Type == Lexer.MathLexer.TYPE_OPE_MUL)
+            if (LOOK_AHEAD.Type == Lexer.MathLexer.TYPE_OPE_MUL
+             || LOOK_AHEAD.Type == Lexer.MathLexer.TYPE_OPE_DIV)
             {
-                var op = Match(Lexer.MathLexer.TYPE_OPE_MUL);
+                var op = Match(LOOK_AHEAD.Type);
                 var node = Term();
 
                 op.AddChild(tree);
                 op.AddChild(node);
                 return op;
             }
-            else if (LOOK_AHEAD.Type == Lexer.MathLexer.TYPE_OPE_DIV)
-            {
-                var op = Match(Lexer.MathLexer.TYPE_OPE_DIV);
-                var node = Term();
-                op.AddChild(tree);
-                op.AddChild(node);
-                return op;
-            }
-            else
-            {
-                return tree;
-            }
+            return tree;
         }
         /// <summary>
         ///文法：factorを表現
