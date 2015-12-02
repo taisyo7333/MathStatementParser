@@ -77,7 +77,7 @@ namespace MathStatementParser.Parser
         /// Tests parsing if it's ok or ng.
         /// </summary>
         /// <returns>null : success , not null : error</returns>
-        public abstract string Start();
+        public abstract string Test();
         /// <summary>
         /// Parses input to a Abstruct Syntax Tree.
         /// 入力字句を抽象構文木へ変換する

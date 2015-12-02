@@ -40,7 +40,7 @@ namespace CUI
                 Lexer lexer = new MathLexer(input);
                 MathParser parser = new MathParser(lexer);
 
-                var result = parser.Start();
+                var result = parser.Test();
                 Console.WriteLine(string.Format("result = {0} ",result == null ? "" : result ));
             }
             Console.WriteLine("+++++++ Abstruct Syntax Tree #1 ++++++++");

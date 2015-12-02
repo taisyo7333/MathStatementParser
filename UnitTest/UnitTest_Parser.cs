@@ -124,7 +124,7 @@ namespace UnitTest
             Lexer lex = new MathLexer("123+(456.0*5)/1.000000007");
             Parser parser = new MathParser(lex);
 
-            var result = parser.Start();
+            var result = parser.Test();
             Assert.AreEqual(null, result);
         }
         /// <summary>
@@ -137,7 +137,7 @@ namespace UnitTest
             Lexer lex = new MathLexer("123(+5");
             Parser parser = new MathParser(lex);
 
-            var result = parser.Start();
+            var result = parser.Test();
             Assert.AreNotEqual(null, result);
         }
         /// <summary>
@@ -150,7 +150,7 @@ namespace UnitTest
             Lexer lex = new MathLexer("");
             Parser parser = new MathParser(lex);
 
-            var result = parser.Start();
+            var result = parser.Test();
             Assert.AreNotEqual(null, result);
         }
         /// <summary>
@@ -163,7 +163,7 @@ namespace UnitTest
             Lexer lex = new MathLexer("123+)");
             Parser parser = new MathParser(lex);
 
-            var result = parser.Start();
+            var result = parser.Test();
             Assert.AreNotEqual(null, result);
         }
         /// <summary>

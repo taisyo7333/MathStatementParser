@@ -46,7 +46,7 @@ namespace MathStatementParser.Parser
         /// <returns>
         /// null : success , not null : error
         /// </returns>
-        public override string Start()
+        public override string Test()
         {
             try
             {
