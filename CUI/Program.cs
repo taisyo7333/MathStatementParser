@@ -43,7 +43,7 @@ namespace CUI
                 var result = parser.Test();
                 Console.WriteLine(string.Format("result = {0} ",result == null ? "" : result ));
             }
-            Console.WriteLine("+++++++ Abstruct Syntax Tree #1 ++++++++");
+            Console.WriteLine("+++++++ Abstract Syntax Tree #1 ++++++++");
             {
                 AbstractSyntaxTree root = new AbstractSyntaxTree(null);
 
@@ -54,7 +54,7 @@ namespace CUI
                 Console.WriteLine(tree.ToStringTree());
             }
             {
-                Console.WriteLine("+++++++ Abstruct Syntax Tree #2 ++++++++");
+                Console.WriteLine("+++++++ Abstract Syntax Tree #2 ++++++++");
 
                 AbstractSyntaxTree root = new AbstractSyntaxTree(null);
 
@@ -73,7 +73,7 @@ namespace CUI
                 Console.WriteLine(tree.ToStringTree());
             }
             {
-                Console.WriteLine("++++++++ Translate from string to Abstruct Syntax Tree ++++++++");
+                Console.WriteLine("++++++++ Translate from string to Abstract Syntax Tree ++++++++");
                 Lexer lexer = new MathLexer(input);
                 Parser parser = new MathParser(lexer);
 
@@ -82,7 +82,7 @@ namespace CUI
 
             }
             {
-                Console.WriteLine("++++++++ Translate from string to Abstruct Syntax Tree #2 ++++++++");
+                Console.WriteLine("++++++++ Translate from string to Abstract Syntax Tree #2 ++++++++");
                 var statement = "1+2+3";
 
                 Lexer lexer = new MathLexer(statement);

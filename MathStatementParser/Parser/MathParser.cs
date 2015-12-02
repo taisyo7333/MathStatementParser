@@ -65,7 +65,7 @@ namespace MathStatementParser.Parser
             }
         }
         /// <summary>
-        /// Parses input to a Abstruct Syntax Tree.
+        /// Parses input to a Abstract Syntax Tree.
         /// 入力字句を抽象構文木へ変換する
         /// </summary>
         /// <returns>
@@ -100,7 +100,7 @@ namespace MathStatementParser.Parser
         /// 文法 : expr を表現
         /// <![CDATA[ <expr>    ::= <term> (('+'|'-') <term>)* ]]>
         /// </summary>
-        /// <remarks>抽象構文木(Abstruct Syntax Tree)の部分木 or 全体</remarks>
+        /// <remarks>抽象構文木(Abstract Syntax Tree)の部分木 or 全体</remarks>
         Tree.AbstractSyntaxTree Expr()
         {
             var left = Term();
@@ -124,7 +124,7 @@ namespace MathStatementParser.Parser
         /// 文法：termを表現
         /// <![CDATA[<term>    ::= <factor> (('*'|'/') <factor>)* ]]>
         /// </summary>
-        /// <remarks>抽象構文木(Abstruct Syntax Tree)の部分木</remarks>
+        /// <remarks>抽象構文木(Abstract Syntax Tree)の部分木</remarks>
         Tree.AbstractSyntaxTree Term()
         {
             var left = Factor();
@@ -148,7 +148,7 @@ namespace MathStatementParser.Parser
         ///文法：factorを表現
         ///<![CDATA[<factor>  ::= '(' <expr> ')' | <element>]]>
         /// </summary>
-        /// <remarks>抽象構文木(Abstruct Syntax Tree)の部分木</remarks>
+        /// <remarks>抽象構文木(Abstract Syntax Tree)の部分木</remarks>
         Tree.AbstractSyntaxTree Factor()
         {
             if( LOOK_AHEAD.Type == Lexer.MathLexer.TYPE_LPAREN)
@@ -168,7 +168,7 @@ namespace MathStatementParser.Parser
         /// <![CDATA[<elements> ::= Integer | real-number]]>
         /// </summary>
         /// <exception cref="MathStatementParser.Parser.ParserException"></exception>
-        /// <remarks>抽象構文木(Abstruct Syntax Tree)の部分木</remarks>
+        /// <remarks>抽象構文木(Abstract Syntax Tree)の部分木</remarks>
         Tree.AbstractSyntaxTree Elements()
         {
             if(LOOK_AHEAD.Type == Lexer.MathLexer.TYPE_NUM)

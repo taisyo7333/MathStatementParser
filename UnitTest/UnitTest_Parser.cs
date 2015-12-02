@@ -167,7 +167,7 @@ namespace UnitTest
             Assert.AreNotEqual(null, result);
         }
         /// <summary>
-        /// Tests the parser abstruct syntax tree_ empty.
+        /// Tests the parser Abstract syntax tree_ empty.
         /// 空文字列入力テスト
         /// </summary>
         [TestMethod]
@@ -180,7 +180,7 @@ namespace UnitTest
             Assert.AreEqual(null, result);
         }
         /// <summary>
-        /// Tests the parser Abstruct Syntax Tree occurs syntax error.
+        /// Tests the parser Abstract Syntax Tree occurs syntax error.
         /// </summary>
         [TestMethod]
         public void TestParserAST_NG_SyntaxError()
@@ -193,7 +193,7 @@ namespace UnitTest
 
         }
         /// <summary>
-        /// Tests the parser Abstruct Syntax Tree success in case of addition.
+        /// Tests the parser Abstract Syntax Tree success in case of addition.
         /// 加算演算子のみを使用した数式をテストする
         /// </summary>
         /// <remarks>左優先(左から右へ評価する)</remarks>
@@ -209,7 +209,7 @@ namespace UnitTest
             Assert.AreEqual("(+ (+ (+ 1 23) 456) 7890)", ast);
         }
         /// <summary>
-        /// Tests the parser Abstruct Syntax Tree success in case of subtraction.   
+        /// Tests the parser Abstract Syntax Tree success in case of subtraction.   
         /// 減算演算子のみを使用した数式をテストする
         /// </summary>
         /// <remarks>左優先(左から右へ評価する)</remarks>
@@ -225,7 +225,7 @@ namespace UnitTest
             Assert.AreEqual("(- (- (- 1 23) 456) 7890)",ast);
         }
         /// <summary>
-        /// Tests the parser Abstruct Syntax Tree success in case of multiplication.
+        /// Tests the parser Abstract Syntax Tree success in case of multiplication.
         /// 乗算演算子のみを使用した数式をテストする
         /// </summary>
         /// <remarks>左優先(左から右へ評価する)</remarks>
@@ -241,7 +241,7 @@ namespace UnitTest
             Assert.AreEqual("(* (* (* 1 23) 456) 7890)", ast);
         }
         /// <summary>
-        /// Tests the parser Abstruct Syntax Tree success in case of division.
+        /// Tests the parser Abstract Syntax Tree success in case of division.
         /// 除算演算子のみを使用した数式をテストする
         /// </summary>
         /// <remarks>左優先(左から右へ評価する)</remarks>
@@ -257,7 +257,7 @@ namespace UnitTest
             Assert.AreEqual("(/ (/ (/ 1 23) 456) 7890)", ast);
         }
         /// <summary>
-        /// Tests the parser Abstruct Syntax Tree success in case of complex situation.
+        /// Tests the parser Abstract Syntax Tree success in case of complex situation.
         /// 複数の優先度が異なる演算子を使用した数式をテストする。
         /// その１。
         /// </summary>
@@ -273,7 +273,7 @@ namespace UnitTest
             Assert.AreEqual("(+ 1 (* 23 456))", ast);
         }
         /// <summary>
-        /// Tests the parser Abstruct Syntax Tree success in case of complex situation.
+        /// Tests the parser Abstract Syntax Tree success in case of complex situation.
         /// 複数の優先度が異なる演算子を使用した数式をテストする。
         /// その２。
         /// </summary>
@@ -289,7 +289,7 @@ namespace UnitTest
             Assert.AreEqual("(+ (* 1 23) 456)", ast);
         }
         /// <summary>
-        /// Tests the parser Abstruct Syntax Tree success in case of using parenthesis.
+        /// Tests the parser Abstract Syntax Tree success in case of using parenthesis.
         /// 複数の優先度が異なる演算子と()を使用した数式をテストする。
         /// その３。
         /// </summary>

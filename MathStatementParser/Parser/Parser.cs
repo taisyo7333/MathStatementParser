@@ -79,7 +79,7 @@ namespace MathStatementParser.Parser
         /// <returns>null : success , not null : error</returns>
         public abstract string Test();
         /// <summary>
-        /// Parses input to a Abstruct Syntax Tree.
+        /// Parses input to a Abstract Syntax Tree.
         /// 入力字句を抽象構文木へ変換する
         /// </summary>
         /// <returns>生成された抽象構文木</returns>
