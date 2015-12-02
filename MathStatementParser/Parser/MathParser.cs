@@ -17,8 +17,8 @@ namespace MathStatementParser.Parser
     {
         #region SYNTAX
         /* ******************************************
-         * <expr>    ::= <term> ('+'|'-') <term>
-         * <term>    ::= <factor> ('*'|'/') <factor>
+         * <expr>    ::= <term>   (('+'|'-') <term>   )*
+         * <term>    ::= <factor> (('*'|'/') <factor> )*
          * <factor>  ::= '(' <expr> ')' | <element>
          * <elements>::= Integer | real-number
          * ***************************************** */
@@ -41,16 +41,16 @@ namespace MathStatementParser.Parser
         }
 
         /// <summary>
-        /// Starts syntax parsing.
+        /// Tests parsing if it's ok or ng.
         /// </summary>
         /// <returns>
         /// null : success , not null : error
         /// </returns>
-        public override string Start()
+        public override string Test()
         {
             try
             {
-                Expr();
+                var tree = Expr();
                 // Accepted 
                 if( LOOK_AHEAD.Type == MathLexer.TYPE_EOF )
                 {
@@ -64,62 +64,103 @@ namespace MathStatementParser.Parser
                 return "Syntax Error" + ex.Message;
             }
         }
+        /// <summary>
+        /// Parses input to a Abstract Syntax Tree.
+        /// 入力字句を抽象構文木へ変換する
+        /// </summary>
+        /// <returns>
+        /// 生成された抽象構文木。失敗時はnull
+        /// </returns>
+        public override Tree.AbstractSyntaxTree ParseAst()
+        {
+            try
+            {
+                var tree = Expr();
+                // Accepted 
+                if (LOOK_AHEAD.Type == MathLexer.TYPE_EOF)
+                {
+                    return tree;
+                }
+                else
+                {
+                    return null;
+                }
+
+            }
+            catch (ParserException)
+            {
+                return null;
+            }
+
+        }
         #endregion
 
         #region SYNTAX_PARSE_IMPLEMENTS
         /// <summary>
         /// 文法 : expr を表現
-        /// <![CDATA[ <expr>    ::= <term> ('+'|'-') <term> ]]>
+        /// <![CDATA[ <expr>    ::= <term> (('+'|'-') <term>)* ]]>
         /// </summary>
-        /// <remarks></remarks>
-        void Expr()
+        /// <remarks>抽象構文木(Abstract Syntax Tree)の部分木 or 全体</remarks>
+        Tree.AbstractSyntaxTree Expr()
         {
-            Term();
+            var left = Term();
 
-            while ( LOOK_AHEAD.Type == Lexer.MathLexer.TYPE_OPE_ADD
-                ||  LOOK_AHEAD.Type == Lexer.MathLexer.TYPE_OPE_SUB)
+            while (LOOK_AHEAD.Type == Lexer.MathLexer.TYPE_OPE_ADD
+                || LOOK_AHEAD.Type == Lexer.MathLexer.TYPE_OPE_SUB)
             {
-                if (LOOK_AHEAD.Type == Lexer.MathLexer.TYPE_OPE_ADD)
-                    Match(Lexer.MathLexer.TYPE_OPE_ADD);
-                else if (LOOK_AHEAD.Type == Lexer.MathLexer.TYPE_OPE_SUB)
-                    Match(Lexer.MathLexer.TYPE_OPE_SUB);
+                var op = Match(LOOK_AHEAD.Type);
+                var right = Term();
 
-                Term();
+                op.AddChild(left);
+                op.AddChild(right);
+
+                // 優先度が同じ場合に左側を優先。
+                // 左側演算子の階層を深く構築する。
+                left = op;
             }
+            return left;
         }
         /// <summary>
         /// 文法：termを表現
-        /// <![CDATA[<term>    ::= <factor> ('*'|'/') <factor>]]>
+        /// <![CDATA[<term>    ::= <factor> (('*'|'/') <factor>)* ]]>
         /// </summary>
-        void Term()
+        /// <remarks>抽象構文木(Abstract Syntax Tree)の部分木</remarks>
+        Tree.AbstractSyntaxTree Term()
         {
-            Factor();
-            while( LOOK_AHEAD.Type == Lexer.MathLexer.TYPE_OPE_MUL
-                || LOOK_AHEAD.Type == Lexer.MathLexer.TYPE_OPE_DIV)
-            {
-                if (LOOK_AHEAD.Type == Lexer.MathLexer.TYPE_OPE_MUL)
-                    Match(Lexer.MathLexer.TYPE_OPE_MUL);
-                else if (LOOK_AHEAD.Type == Lexer.MathLexer.TYPE_OPE_DIV)
-                    Match(Lexer.MathLexer.TYPE_OPE_DIV);
+            var left = Factor();
 
-                Factor();
+            while (LOOK_AHEAD.Type == Lexer.MathLexer.TYPE_OPE_MUL
+             || LOOK_AHEAD.Type == Lexer.MathLexer.TYPE_OPE_DIV)
+            {
+                var op = Match(LOOK_AHEAD.Type);
+                var right = Factor();
+
+                op.AddChild(left);
+                op.AddChild(right);
+
+                // 優先度が同じ場合に左側を優先。
+                // 左側演算子の階層を深く構築する。
+                left = op;
             }
+            return left;
         }
         /// <summary>
         ///文法：factorを表現
         ///<![CDATA[<factor>  ::= '(' <expr> ')' | <element>]]>
         /// </summary>
-        void Factor()
+        /// <remarks>抽象構文木(Abstract Syntax Tree)の部分木</remarks>
+        Tree.AbstractSyntaxTree Factor()
         {
             if( LOOK_AHEAD.Type == Lexer.MathLexer.TYPE_LPAREN)
             {
                 Match(Lexer.MathLexer.TYPE_LPAREN);
-                Expr();
+                var tree = Expr();
                 Match(Lexer.MathLexer.TYPE_RPAREN);
+                return tree;
             }
             else
             {
-                Elements();
+                return Elements();
             }
         }
         /// <summary>
@@ -127,15 +168,16 @@ namespace MathStatementParser.Parser
         /// <![CDATA[<elements> ::= Integer | real-number]]>
         /// </summary>
         /// <exception cref="MathStatementParser.Parser.ParserException"></exception>
-        void Elements()
+        /// <remarks>抽象構文木(Abstract Syntax Tree)の部分木</remarks>
+        Tree.AbstractSyntaxTree Elements()
         {
             if(LOOK_AHEAD.Type == Lexer.MathLexer.TYPE_NUM)
             {
-                Match(Lexer.MathLexer.TYPE_NUM);
+                return Match(Lexer.MathLexer.TYPE_NUM);
             }
             else if( LOOK_AHEAD.Type == Lexer.MathLexer.TYPE_REAL)
             {
-                Match(Lexer.MathLexer.TYPE_REAL);
+                return Match(Lexer.MathLexer.TYPE_REAL);
             }
             else
             {
