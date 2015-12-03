@@ -14,86 +14,72 @@ namespace CUI
     {
         static void Main(string[] args)
         {
-            string input;
-            if( args.Length > 0)
-                input = args[0];
+            if (args.Length > 0)
+            {
+                string input = args[0];
+                // TOKEN出力
+                PrintStringTokens(input);
+                // 抽象構文木を文字列出力
+                PrintStringAbstractSyntaxTree(input);
+            }
             else
-                input = "123 +456+789*(19- 20)    /7890123456";
-
             {
-                Console.WriteLine(">" + input);
-
-
-                Lexer lexer = new MathLexer(input);
-                Token token = lexer.NextToken();
-
-                while (token.Type != Lexer.TYPE_EOF)
+                // インタラクティブモード
+                do
                 {
-                    Console.WriteLine(token.ToString());
-                    token = lexer.NextToken();
-                }
+                    var line = Console.ReadLine();
+                    // 終了条件
+                    if (line == null || line.ToLower().Equals("exit"))
+                        break;
+                    // 空文字
+                    if(!line.Any() )
+                    {
+                        Console.Write(">");
+                        continue;
+                    }
+
+                    PrintStringTokens(line);
+                    PrintStringAbstractSyntaxTree(line);
+
+                    Console.WriteLine("");
+                } while (true);
+            }
+        }
+        /// <summary>
+        /// Prints the string tokens.
+        /// </summary>
+        /// <param name="input">The input.</param>
+        static void PrintStringTokens(string input)
+        {
+            Console.WriteLine("Print tokens list.");
+            Console.WriteLine(">" + input);
+
+
+            Lexer lexer = new MathLexer(input);
+            Token token = lexer.NextToken();
+
+            while (token.Type != Lexer.TYPE_EOF)
+            {
                 Console.WriteLine(token.ToString());
+                token = lexer.NextToken();
             }
-            Console.WriteLine("+++++ PARSER PHASES ++++");
-            {
-                Console.WriteLine(">" + input);
-                Lexer lexer = new MathLexer(input);
-                MathParser parser = new MathParser(lexer);
+            Console.WriteLine(token.ToString());
+        }
+        /// <summary>
+        /// Prints the string abstract syntax tree.
+        /// </summary>
+        /// <param name="input">The input.</param>
+        static void PrintStringAbstractSyntaxTree(string input)
+        {
+            Console.WriteLine("Print string abstract syntax tree.");
+            Console.WriteLine(">" + input);
 
-                var result = parser.Test();
-                Console.WriteLine(string.Format("result = {0} ",result == null ? "" : result ));
-            }
-            Console.WriteLine("+++++++ Abstract Syntax Tree #1 ++++++++");
-            {
-                AbstractSyntaxTree root = new AbstractSyntaxTree(null);
+            Lexer lexer = new MathLexer(input);
+            Parser parser = new MathParser(lexer);
 
-                AbstractSyntaxTree tree = new AbstractSyntaxTree(MathLexer.TYPE_OPE_ADD, "+");
-                tree.AddChild(new AbstractSyntaxTree(MathLexer.TYPE_NUM, "123"));
-                tree.AddChild(new AbstractSyntaxTree(MathLexer.TYPE_REAL, "456.7"));
+            var result = parser.ParseAst();
 
-                Console.WriteLine(tree.ToStringTree());
-            }
-            {
-                Console.WriteLine("+++++++ Abstract Syntax Tree #2 ++++++++");
-
-                AbstractSyntaxTree root = new AbstractSyntaxTree(null);
-
-                AbstractSyntaxTree tree = new AbstractSyntaxTree(MathLexer.TYPE_OPE_ADD, "+");
-                tree.AddChild(new AbstractSyntaxTree(MathLexer.TYPE_NUM, "123"));
-//                tree.AddChild(new AbstractSyntaxTree(MathLexer.TYPE_REAL, "456.7"));
-
-                root.AddChild(tree);
-
-                AbstractSyntaxTree tree_child = new AbstractSyntaxTree(MathLexer.TYPE_OPE_DIV, "/");
-                tree_child.AddChild(new AbstractSyntaxTree(MathLexer.TYPE_NUM, "678.9"));
-                tree_child.AddChild(new AbstractSyntaxTree(MathLexer.TYPE_REAL, "1"));
-
-                tree.AddChild(tree_child);
-
-                Console.WriteLine(tree.ToStringTree());
-            }
-            {
-                Console.WriteLine("++++++++ Translate from string to Abstract Syntax Tree ++++++++");
-                Lexer lexer = new MathLexer(input);
-                Parser parser = new MathParser(lexer);
-
-                var ast = parser.ParseAst();
-                Console.WriteLine(ast.ToStringTree());
-
-            }
-            {
-                Console.WriteLine("++++++++ Translate from string to Abstract Syntax Tree #2 ++++++++");
-                var statement = "1+2+3";
-
-                Lexer lexer = new MathLexer(statement);
-                Parser parser = new MathParser(lexer);
-
-                var ast = parser.ParseAst();
-                Console.WriteLine(statement);
-                Console.WriteLine(ast.ToStringTree());
-
-            }
-
+            Console.WriteLine(result.ToStringTree());
         }
     }
 }
