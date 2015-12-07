@@ -12,42 +12,42 @@ namespace MathStatementParser.Lexer
         /// <summary>
         /// 字句型：無効
         /// </summary>
-        public static readonly int TYPE_INVALID = 0;
+        public  const int TYPE_INVALID = 0;
         // 上位で定義
-        // public static readonly int TYPE_EOF = 1;
+        // public  const int TYPE_EOF = 1;
 
         /// <summary>
         /// 字句型：整数
         /// </summary>
-        public static readonly int TYPE_NUM = 2;
+        public  const int TYPE_NUM = 2;
         /// <summary>
         /// 字句型：Left Parenthesis
         /// </summary>
-        public static readonly int TYPE_LPAREN = 3;
+        public  const int TYPE_LPAREN = 3;
         /// <summary>
         /// 字句型：Right Parenthesis
         /// </summary>
-        public static readonly int TYPE_RPAREN = 4;
+        public  const int TYPE_RPAREN = 4;
         /// <summary>
         /// 字句型：実数
         /// </summary>
-        public static readonly int TYPE_REAL = 5;
+        public  const int TYPE_REAL = 5;
         /// <summary>
         /// 字句型：加算演算子
         /// </summary>
-        public static readonly int TYPE_OPE_ADD = 6;
+        public  const int TYPE_OPE_ADD = 6;
         /// <summary>
         /// 字句型：減算演算子
         /// </summary>
-        public static readonly int TYPE_OPE_SUB = 7;
+        public  const int TYPE_OPE_SUB = 7;
         /// <summary>
         /// 字句型：乗算演算子
         /// </summary>
-        public static readonly int TYPE_OPE_MUL = 8;
+        public  const int TYPE_OPE_MUL = 8;
         /// <summary>
         /// 字句型：除算演算子
         /// </summary>
-        public static readonly int TYPE_OPE_DIV = 9;
+        public  const int TYPE_OPE_DIV = 9;
         #endregion
 
         #region FIELDS

@@ -48,6 +48,7 @@
     <Compile Include="Parser\ParserException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Lexer\Token.cs" />
+    <Compile Include="Tree\AstInterpreter.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

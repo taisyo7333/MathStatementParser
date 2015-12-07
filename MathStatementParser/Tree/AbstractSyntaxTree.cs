@@ -68,7 +68,7 @@ namespace MathStatementParser.Tree
         /// <summary>
         /// Adds the child.
         /// </summary>
-        /// <param name="tree">The abstract sysntax tree.</param>
+        /// <param name="ast">The abstract sysntax ast.</param>
         public void AddChild(AbstractSyntaxTree tree)
         {
             if (children == null)
@@ -76,6 +76,18 @@ namespace MathStatementParser.Tree
                 children = new List<AbstractSyntaxTree>();
             }
             children.Add(tree);
+        }
+        /// <summary>
+        /// Gets the child.
+        /// </summary>
+        /// <param name="index">the number of children's index.</param>
+        /// <returns>children's node.</returns>
+        public AbstractSyntaxTree GetChild(int index)
+        {
+            if (children == null)
+                throw new InvalidProgramException("文法エラーの可能性がある");
+
+            return children.ElementAt(index);
         }
         /// <summary>
         /// Determines whether this node is nil.
@@ -96,7 +108,7 @@ namespace MathStatementParser.Tree
             return token == null ? "nil" : token.Text;
         }
         /// <summary>
-        /// To the string tree.
+        /// To the string ast.
         /// 抽象構文木を文字列出力する。
         /// </summary>
         /// <returns>抽象構文木を平坦(一次元)化した文字列を出力する</returns>
