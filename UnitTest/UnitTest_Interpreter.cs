@@ -42,6 +42,17 @@ namespace UnitTest
             Assert.AreEqual(1.0, result);
         }
         [TestMethod]
+        public void TestInterp_Real2()
+        {
+            string statement = "1.2";
+
+            var ip = GenInterpreter(statement);
+
+            var result = ip.Exec();
+
+            Assert.AreEqual(1.2, result);
+        }
+        [TestMethod]
         public void TestInterp_Add_Int()
         {
             string statement = "2+5";
@@ -75,6 +86,16 @@ namespace UnitTest
             Assert.AreEqual(10.0, result);
         }
         [TestMethod]
+        public void TestInterp_Mul_Real()
+        {
+            string statement = "1.2*1.2";
+
+            var ip = GenInterpreter(statement);
+
+            var result = ip.Exec();
+            Assert.AreEqual(1.44, result);
+        }
+        [TestMethod]
         public void TestInterp_Div_Int()
         {
             string statement = "2/5";
@@ -85,6 +106,17 @@ namespace UnitTest
 
             Assert.AreEqual(0.4, result);
         }
+        [TestMethod]
+        public void TestInterp_Div_Int2()
+        {
+            string statement = "12/10";
+
+            var ip = GenInterpreter(statement);
+
+            var result = ip.Exec();
+            Assert.AreEqual(1.2, result);
+        }
+
         [TestMethod]
         public void TestInterp_MixOp_Int1()
         {
@@ -105,5 +137,17 @@ namespace UnitTest
             var result = ip.Exec();
             Assert.AreEqual(14.0, result);
         }
+#if false
+        [TestMethod]
+        public void TestInterp_MixOp_Double3()
+        {
+            string statement = "7/3";
+
+            var ip = GenInterpreter(statement);
+
+            var result = ip.Exec();
+            Assert.AreEqual(2.33333333333333, result);
+        }
+#endif
     }
 }
